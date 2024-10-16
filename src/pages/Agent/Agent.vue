@@ -3,7 +3,7 @@
     <MainlayoutVue>
       <div class="flex flex-col gap-y-10 pt-10 px-8">
         <p class="font-bebas font-extrabold text-white text-5xl">AGENTS</p>
-        <div class="grid grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           <CardVue v-for="(item, key) in filterAgent" :key="key">
             <router-link
               :to="`/Agent/${item.uuid}`"
