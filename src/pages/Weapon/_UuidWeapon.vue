@@ -30,7 +30,7 @@
               THIS WEAPON NO HAVE DETAIL STATS
             </p>
           </div>
-          <div class="lg:flex justify-between gap-x-4" v-else>
+          <div class="lg:flex justify-between gap-x-4 text-center" v-else>
             <div class="w-full">
               <div v-for="(items, key) in weapon.weaponStats" :key="key">
                 <div
@@ -43,12 +43,14 @@
                 >
                   <ul>
                     <li class="">
-                      <strong>{{ key }} :</strong>
+                      <p class="text-center">
+                        <strong>{{ key }} :</strong>
+                      </p>
                     </li>
                   </ul>
                   <ul>
                     <li class="">
-                      {{ extractKata(items) }}
+                      <p class="text-center">{{ extractKata(items) }}</p>
                     </li>
                   </ul>
                 </div>
@@ -64,11 +66,15 @@
               >
                 <ul>
                   <li>
-                    <strong>{{ key }}:</strong>
+                    <p class="text-center">
+                      <strong>{{ key }}:</strong>
+                    </p>
                   </li>
                 </ul>
                 <ul>
-                  <li>{{ items }}</li>
+                  <li>
+                    <p class="text-center">{{ items }}</p>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -81,16 +87,16 @@
                 class="flex justify-between items-center w-full"
               >
                 <ul>
-                  <li class="flex flex-col">
-                    <strong>Start:</strong>
-                    <strong>End:</strong>
-                    <strong>Head Damage:</strong>
-                    <strong>Body Damage:</strong>
-                    <strong>Leg Damage:</strong>
+                  <li class="flex flex-col text-center">
+                    <p><strong>Start:</strong></p>
+                    <p><strong>End:</strong></p>
+                    <p><strong>Head Damage:</strong></p>
+                    <p><strong>Body Damage:</strong></p>
+                    <p><strong>Leg Damage:</strong></p>
                   </li>
                 </ul>
                 <ul>
-                  <li class="flex flex-col">
+                  <li class="flex flex-col text-center">
                     <p>{{ items.rangeStartMeters }} m</p>
                     <p>{{ items.rangeEndMeters }} m</p>
                     <p>{{ items.headDamage }}</p>
@@ -103,7 +109,7 @@
           </div>
         </div>
 
-        <div class="flex flex-col justify-center items-center gap-y-3">
+        <div class="flex flex-col justify-center items-center gap-y-3 mt-5">
           <p class="text-white font-bebas text-5xl font-extrabold">SKINS</p>
           <div
             class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 w-full h-full"
