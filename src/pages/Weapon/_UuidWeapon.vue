@@ -111,20 +111,23 @@
 
         <div class="flex flex-col justify-center items-center gap-y-3 mt-5">
           <p class="text-white font-bebas text-5xl font-extrabold">SKINS</p>
+
           <div
             class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 w-full h-full"
           >
             <div v-for="(skin, key) in filterSkin" :key="key">
-              <div
-                class="flex flex-col justify-between h-full items-center gap-y-2 p-2 md:p-5 lg:p-10"
-              >
-                <img :src="skin.displayIcon" class="max-w-full h-auto" />
-                <p
-                  class="text-white font-bebas text-sm md:text-base lg:text-lg font-bold"
+              <router-link :to="`/Weapon/${weapon.uuid}/${skin.uuid}`">
+                <div
+                  class="flex flex-col justify-between h-full items-center gap-y-2 p-2 md:p-5 lg:p-10"
                 >
-                  {{ skin.displayName }}
-                </p>
-              </div>
+                  <img :src="skin.displayIcon" class="max-w-full h-auto" />
+                  <p
+                    class="text-white font-bebas text-sm md:text-base lg:text-lg font-bold"
+                  >
+                    {{ skin.displayName }}
+                  </p>
+                </div>
+              </router-link>
             </div>
           </div>
         </div>
