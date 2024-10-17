@@ -142,6 +142,7 @@ export default {
   data() {
     return {
       weapon: {},
+      uuId: "",
     };
   },
   mounted() {
@@ -155,6 +156,7 @@ export default {
           `https://valorant-api.com/v1/weapons/${uuId}`
         );
         this.weapon = res.data.data;
+        this.uuId = uuId;
         console.log(this.weapon.skins);
       } catch (err) {
         console.log(err);

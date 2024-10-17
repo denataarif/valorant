@@ -59,7 +59,7 @@ export default {
           `https://valorant-api.com/v1/weapons`
         );
         this.dataWeapon = res.data.data;
-        console.log(res.data.data);
+        console.log(this.dataWeapon?.uuid);
       } catch (err) {
         console.log(err);
       }

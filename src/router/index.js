@@ -23,10 +23,12 @@ const routes = [
   },
   {
     path: "/Weapon",
+    name: "Weapon",
     component: Weapon,
   },
   {
     path: "/Weapon/:id",
+    name: "DetailWeapon",
     component: DetailWeapon,
   },
 ];
