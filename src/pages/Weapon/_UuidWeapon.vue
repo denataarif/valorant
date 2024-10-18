@@ -135,11 +135,11 @@
     <Modal :showModal="showModal" @close="showModal = false">
       <div class="flex flex-col justify-center items-center gap-y-5 mt-10">
         <img
-          :src="dataSkin?.displayIcon"
+          :src="dataSkin.displayIcon"
           class="size-2/5 lg:size-fit md:size-fit"
         />
         <p class="text-white text-xl lg:text-4xl font-bebas font-bold">
-          {{ dataSkin?.displayName }}
+          {{ dataSkin.displayName }}
         </p>
       </div>
       <p
@@ -152,6 +152,12 @@
           v-for="(items, key) in varianSkin"
           :key="key"
           class="flex flex-col justify-between items-center gap-y-1 lg:gap-y-5"
+          @click.prevent="
+            (e) => {
+              console.log('clicked', items);
+              changeIcon(items);
+            }
+          "
         >
           <img :src="items.displayIcon" class="lg:size-fit md:size-fit" />
           <p
@@ -178,9 +184,8 @@ export default {
       weapon: {},
       uuId: "",
       showModal: false,
-      dataSkin: null,
+      dataSkin: [],
       varianSkin: null,
-      levelSkin: null,
     };
   },
   mounted() {
@@ -194,6 +199,7 @@ export default {
         this.getDetailSkin(uuid);
       }
     },
+
     async getDetailWeapon() {
       const uuId = this.$route.params.id;
       try {
@@ -203,6 +209,7 @@ export default {
         this.weapon = res.data.data;
         this.uuId = uuId;
         console.log(this.weapon.skins);
+        console.log(this.varianSkin?.uuid);
       } catch (err) {
         console.log(err);
       }
@@ -214,13 +221,15 @@ export default {
         );
         this.dataSkin = res.data.data;
         this.varianSkin = res.data.data.chromas;
-        this.levelSkin = res.data.data.levels;
-        console.log(this.varianSkin);
+        console.log(this.varianSkin.uuid);
       } catch (err) {
         console.log(err);
       }
     },
-
+    changeIcon(updateSkin) {
+      this.dataSkin = { ...updateSkin };
+      console.log(this.dataSkin);
+    },
     getCategory(category) {
       return category?.split("::")[1];
     },
@@ -240,6 +249,9 @@ export default {
           !skins.displayName.toLowerCase().includes("standard") &&
           !skins.displayName.toLowerCase().includes("random")
       );
+    },
+    Skin() {
+      return this.weapon.varianSkin;
     },
   },
 };
