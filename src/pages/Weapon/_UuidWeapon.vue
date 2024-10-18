@@ -116,42 +116,84 @@
             class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 w-full h-full"
           >
             <div v-for="(skin, key) in filterSkin" :key="key">
-              <router-link :to="`/Weapon/${weapon.uuid}/${skin.uuid}`">
-                <div
-                  class="flex flex-col justify-between h-full items-center gap-y-2 p-2 md:p-5 lg:p-10"
+              <div
+                class="flex flex-col justify-between h-full items-center gap-y-2 p-2 md:p-5 lg:p-10"
+                @click.prevent="handleModal(skin.uuid)"
+              >
+                <img :src="skin.displayIcon" class="max-w-full h-auto" />
+                <p
+                  class="text-white h-full font-bebas text-xs md:text-base lg:text-lg font-thin md:font-bold lg:font-bold"
                 >
-                  <img :src="skin.displayIcon" class="max-w-full h-auto" />
-                  <p
-                    class="text-white font-bebas text-sm md:text-base lg:text-lg font-bold"
-                  >
-                    {{ skin.displayName }}
-                  </p>
-                </div>
-              </router-link>
+                  {{ skin.displayName }}
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </MainlayoutVue>
+    <Modal :showModal="showModal" @close="showModal = false">
+      <div class="flex flex-col justify-center items-center gap-y-5 mt-10">
+        <img
+          :src="dataSkin?.displayIcon"
+          class="size-2/5 lg:size-fit md:size-fit"
+        />
+        <p class="text-white text-xl lg:text-4xl font-bebas font-bold">
+          {{ dataSkin?.displayName }}
+        </p>
+      </div>
+      <p
+        class="text-red-500 text-xl lg:text-5xl font-bebas font-bold my-5 text-center"
+      >
+        VARIANT
+      </p>
+      <div class="grid grid-cols-4 gap-2 lg:gap-5 px-2 lg:px-5">
+        <div
+          v-for="(items, key) in varianSkin"
+          :key="key"
+          class="flex flex-col justify-between items-center gap-y-1 lg:gap-y-5"
+        >
+          <img :src="items.displayIcon" class="lg:size-fit md:size-fit" />
+          <p
+            class="font-bebas font-extralight lg:font-semibold text-xs lg:text-2xl text-white text-center mt-5"
+          >
+            {{ items.displayName }}
+          </p>
+        </div>
+      </div>
+    </Modal>
   </div>
 </template>
 <script>
 import MainlayoutVue from "@/components/Mainlayout/Mainlayout.vue";
+import Modal from "@/components/Modal/Modal.vue";
 
 export default {
   components: {
     MainlayoutVue,
+    Modal,
   },
   data() {
     return {
       weapon: {},
       uuId: "",
+      showModal: false,
+      dataSkin: null,
+      varianSkin: null,
+      levelSkin: null,
     };
   },
   mounted() {
     this.getDetailWeapon();
+    this.getDetailSkin();
   },
   methods: {
+    handleModal(uuid) {
+      this.showModal = !this.showModal;
+      if (uuid) {
+        this.getDetailSkin(uuid);
+      }
+    },
     async getDetailWeapon() {
       const uuId = this.$route.params.id;
       try {
@@ -161,6 +203,19 @@ export default {
         this.weapon = res.data.data;
         this.uuId = uuId;
         console.log(this.weapon.skins);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async getDetailSkin(uuid) {
+      try {
+        const res = await this.$axios.get(
+          `https://valorant-api.com/v1/weapons/skins/${uuid}`
+        );
+        this.dataSkin = res.data.data;
+        this.varianSkin = res.data.data.chromas;
+        this.levelSkin = res.data.data.levels;
+        console.log(this.varianSkin);
       } catch (err) {
         console.log(err);
       }
@@ -179,7 +234,12 @@ export default {
   },
   computed: {
     filterSkin() {
-      return this.weapon.skins?.filter((skins) => skins.displayIcon !== null);
+      return this.weapon.skins?.filter(
+        (skins) =>
+          skins.displayIcon !== null &&
+          !skins.displayName.toLowerCase().includes("standard") &&
+          !skins.displayName.toLowerCase().includes("random")
+      );
     },
   },
 };

@@ -51,7 +51,7 @@
 
     <div
       v-if="isMenu"
-      class="flex flex-col bg-black lg:hidden absolute top-14 left-0 w-full text-white"
+      class="flex flex-col bg-black lg:hidden absolute top-14 right-0 w-1/2 h-screen text-white"
     >
       <div
         class="flex flex-col justify-between items-center gap-x-2 mb-2 font-bebas text-lg text-white"
