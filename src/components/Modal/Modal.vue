@@ -7,7 +7,10 @@
         <div
           class="bg-black rounded-lg shadow-lg flex flex-col p-2 z-30 w-[90%]"
         >
-          <div className="flex justify-end items-center hover:cursor-pointer">
+          <div
+            className="flex justify-end items-center hover:cursor-pointer"
+            @click.prevent="handleClose"
+          >
             <img :src="asset.IcClose" class="size-4" />
           </div>
           <div><slot></slot></div>

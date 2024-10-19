@@ -133,38 +133,48 @@
       </div>
     </MainlayoutVue>
     <Modal :showModal="showModal" @close="showModal = false">
-      <div class="flex flex-col justify-center items-center gap-y-5 mt-10">
-        <img
-          :src="dataSkin.displayIcon"
-          class="size-2/5 lg:size-fit md:size-fit"
-        />
-        <p class="text-white text-xl lg:text-4xl font-bebas font-bold">
-          {{ dataSkin.displayName }}
-        </p>
-      </div>
-      <p
-        class="text-red-500 text-xl lg:text-5xl font-bebas font-bold my-5 text-center"
-      >
-        VARIANT
-      </p>
-      <div class="grid grid-cols-4 gap-2 lg:gap-5 px-2 lg:px-5">
-        <div
-          v-for="(items, key) in varianSkin"
-          :key="key"
-          class="flex flex-col justify-between items-center gap-y-1 lg:gap-y-5"
-          @click.prevent="
-            (e) => {
-              console.log('clicked', items);
-              changeIcon(items);
-            }
-          "
-        >
-          <img :src="items.displayIcon" class="lg:size-fit md:size-fit" />
+      <div class="flex justify-between items-center">
+        <div @click.prevent="previousSkin">
+          <span class="mr-2 text-white text-5xl">&larr;</span>
+        </div>
+        <div>
+          <div class="flex flex-col justify-center items-center gap-y-5 mt-10">
+            <img
+              :src="dataSkin.displayIcon"
+              class="size-2/5 lg:size-fit md:size-fit"
+            />
+            <p class="text-white text-xl lg:text-4xl font-bebas font-bold">
+              {{ dataSkin.displayName }}
+            </p>
+          </div>
           <p
-            class="font-bebas font-extralight lg:font-semibold text-xs lg:text-2xl text-white text-center mt-5"
+            class="text-red-500 text-xl lg:text-5xl font-bebas font-bold my-5 text-center"
           >
-            {{ items.displayName }}
+            VARIANT
           </p>
+          <div class="grid grid-cols-4 gap-2 lg:gap-5 px-2 lg:px-5">
+            <div
+              v-for="(items, key) in varianSkin"
+              :key="key"
+              class="flex flex-col justify-between items-center gap-y-1 lg:gap-y-5"
+              @click.prevent="
+                (e) => {
+                  console.log('clicked', items);
+                  changeIcon(items);
+                }
+              "
+            >
+              <img :src="items.displayIcon" class="lg:size-fit md:size-fit" />
+              <p
+                class="font-bebas font-extralight lg:font-semibold text-xs lg:text-2xl text-white text-center mt-5"
+              >
+                {{ items.displayName }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div @click.prevent="nextSkin">
+          <span class="ml-2 text-white size-20 text-5xl">&rarr;</span>
         </div>
       </div>
     </Modal>
@@ -208,8 +218,8 @@ export default {
         );
         this.weapon = res.data.data;
         this.uuId = uuId;
-        console.log(this.weapon.skins);
-        console.log(this.varianSkin?.uuid);
+        console.log("ini data skin", this.dataSkin.index);
+        console.log("ini varian", this.varianSkin);
       } catch (err) {
         console.log(err);
       }
@@ -221,7 +231,9 @@ export default {
         );
         this.dataSkin = res.data.data;
         this.varianSkin = res.data.data.chromas;
-        console.log(this.varianSkin.uuid);
+        console.log("ini data skin", this.dataSkin.index);
+
+        console.log(this.varianSkin);
       } catch (err) {
         console.log(err);
       }
@@ -229,6 +241,28 @@ export default {
     changeIcon(updateSkin) {
       this.dataSkin = { ...updateSkin };
       console.log(this.dataSkin);
+    },
+    async nextSkin() {
+      const currentIndex = this.filterSkin.findIndex(
+        (skin) => skin.uuid === this.dataSkin.uuid
+      );
+      if (currentIndex < this.filterSkin.length - 1) {
+        this.dataSkin = this.filterSkin[currentIndex + 1];
+      } else {
+        this.dataSkin = this.filterSkin[0];
+      }
+      await this.getDetailSkin(this.dataSkin.uuid);
+    },
+    async previousSkin() {
+      const currentIndex = this.filterSkin.findIndex(
+        (skin) => skin.uuid === this.dataSkin.uuid
+      );
+      if (currentIndex > 0) {
+        this.dataSkin = this.filterSkin[currentIndex - 1];
+      } else {
+        this.dataSkin = this.filterSkin[this.filterSkin.length - 1];
+      }
+      await this.getDetailSkin(this.dataSkin.uuid);
     },
     getCategory(category) {
       return category?.split("::")[1];
