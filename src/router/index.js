@@ -5,6 +5,7 @@ import DetailAgen from "@/pages/Agent/_UuidAgent.vue";
 import Weapon from "@/pages/Weapon/Weapon.vue";
 import DetailWeapon from "@/pages/Weapon/_UuidWeapon.vue";
 import SkinWeapon from "@/pages/Weapon/_SkinWeapon.vue";
+import MapsPages from "@/pages/Maps/MapsPages.vue";
 // vue.use(VueRouter);
 
 const routes = [
@@ -35,6 +36,11 @@ const routes = [
   {
     path: "/Weapon/:id/:uuid",
     component: SkinWeapon,
+  },
+  {
+    path: "/Maps",
+    name: "Maps",
+    component: MapsPages,
   },
 ];
 

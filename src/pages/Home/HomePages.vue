@@ -66,7 +66,7 @@
         </div>
       </div>
       <div
-        class="bg-black py-10 px-8 flex flex-col gap-4 lg:flex lg:flex-row lg:justify-between lg:items-center relative"
+        class="py-10 px-8 flex flex-col gap-4 lg:flex lg:flex-row lg:justify-between lg:items-center relative"
       >
         <div class="absolute bg-red-500 w-5 h-5 left-4 top-4"></div>
         <div class="absolute bg-red-500 w-5 h-5 left-20 top-4"></div>
@@ -93,7 +93,7 @@
             ></div>
           </div>
         </div>
-        <div class="font-bebas text-white flex flex-col gap-3">
+        <div class="captionAgent font-bebas text-white flex flex-col gap-3">
           <p class="font-extrabold text-5xl">YOUR AGENTS</p>
           <p class="font-bold text-xl">CREATIVITY IS YOUR GREATEST WEAPON.</p>
           <p class="font-normal text-sm">
@@ -105,6 +105,28 @@
           <ButtonVue class="text-center w-fit cursor-pointer">
             <router-link to="/Agent"> VIEW ALL AGENTS </router-link>
           </ButtonVue>
+        </div>
+      </div>
+      <div
+        class="flex flex-col-reverse bg-white py-10 px-8 gap-10 lg:flex lg:flex-row lg:justify-between lg:items-center"
+      >
+        <div class="font-bebas flex flex-col gap-3 justify-center">
+          <P class="font-extrabold text-5xl">YOUR MAPS</P>
+          <P class="font-bold text-xl">FIGHT AROUND THE WORLD</P>
+          <P class="font-normal text-sm"
+            >Each map is a playground to showcase your creative thinking.
+            Purpose-built for team strategies, spectacular plays, and clutch
+            moments. Make the play others will imitate for years to come..</P
+          >
+          <ButtonVue class="text-center w-fit cursor-pointer">
+            <router-link to="/Maps"> VIEW ALL Maps </router-link>
+          </ButtonVue>
+        </div>
+        <div>
+          <img
+            src="https://cmsassets.rgpub.io/sanity/images/dsfx7636/news/65c45804e00ee97977b6eef06da370543968d161-1232x1232.png?auto=format&fit=fill&q=80&w=711"
+            alt="maps images"
+          />
         </div>
       </div>
     </MainlayoutVue>
@@ -158,6 +180,10 @@ export default {
       agents.forEach((agent) => {
         observer.observe(agent);
       });
+      const captionAgent = document.querySelectorAll(".captionAgent");
+      captionAgent.forEach((captionAgent) => {
+        observer.observe(captionAgent);
+      });
       // function diatas adalah function untuk mengamati element dengan class "agent" menggunakan querySelectorAll
       // serta kita looping dan memanggil function observer untuk meng-observe(agent)
     },
@@ -196,7 +222,7 @@ export default {
   animation-delay: 1s;
 }
 .scrollVideo {
-  animation: scrollFromRight 4s forwards;
+  animation: scrollFromRight 5s forwards;
   opacity: 0;
   animation-timeline: view();
   animation-range: entry 0% cover 40%;
@@ -223,15 +249,29 @@ export default {
     scale: 1;
   }
 }
-.agent {
+.agent,
+.captionAgent {
   opacity: 0;
 }
 .agent.animate {
   animation: fromTop 5s forwards;
 }
+.captionAgent.animate {
+  animation: fromBottom 5s forwards;
+}
 @keyframes fromTop {
   from {
     transform: translateY(-10%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+@keyframes fromBottom {
+  from {
+    transform: translateY(30%);
     opacity: 0;
   }
   to {
